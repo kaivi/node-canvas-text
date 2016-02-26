@@ -22,13 +22,37 @@ This module exports a single function with signature:
 
 ### Options
 
-* **minSize**: minimum font size
-* **maxSize**: maximum font size
-* **granularity**: a step, in which to scale font size
+* **minSize**: minimum font size ```float```
+* **maxSize**: maximum font size ```float```
+* **granularity**: a step, in which to scale font size ```float```
 * **hAlign**: horizontal text alignment ```'left' | 'center' | 'right'```
 * **vAlign**: vertical text alignment ```'top' | 'center' | 'bottom'```
 * **fitMethod**: ```'baseline' | 'box'```
-* **drawRect**: draw the bounding rectangle
+* **drawRect**: draw the bounding rectangle ```'true' | 'false'```
+* **textFillStyle**: fill style for text ```string```
+* **rectFillStyle**: fill style for rectangle ```string```
+* **rectFillOnlyText**: fill only the exact resulting text rectangle, not the bounding one ```'true' | 'false'```
+* **textPadding**: text padding ```float```
+* **fillPadding**: fill padding ```float```
+
+#### Defaults
+
+```javascript
+{
+    minSize: 10,
+    maxSize: 200,
+    granularity: 1,
+    hAlign: 'left',
+    vAlign: 'bottom',
+    fitMethod: 'box',
+    textFillStyle: '#000',
+    rectFillStyle: '#fff',
+    rectFillOnlyText: false,
+    textPadding: 0,
+    fillPadding: 0,
+    drawRect: false
+}
+```
 
 ### Fit method: box vs baseline
 

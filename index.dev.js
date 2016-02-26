@@ -31,9 +31,18 @@ var measureText = (text, font, fontSize, method = 'box') => {
     };
 };
 
+var padRectangle = (rectangle, padding) => {
+    return {
+        x: rectangle.x - padding,
+        y: rectangle.y - padding,
+        width: rectangle.width + (padding * 2),
+        height: rectangle.height + ( padding * 2 )
+    }
+};
+
 export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
 
-    let rectangle = {
+    let paddedRect = {
         ...{
             x: 0,
             y: 0,
@@ -49,6 +58,11 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
             hAlign: 'left',
             vAlign: 'bottom',
             fitMethod: 'box',
+            textFillStyle: '#000',
+            rectFillStyle: '#fff',
+            rectFillOnlyText: false,
+            textPadding: 0,
+            fillPadding: 0,
             drawRect: false
         }, ..._options };
 
@@ -57,6 +71,9 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
     if (typeof ctx != 'object') throw 'Missing ctx parameter';
     if (options.minSize > options.maxSize) throw 'Min font size can not be larger than max font size';
 
+    let originalRect= paddedRect;
+    paddedRect = padRectangle(paddedRect, options.textPadding);
+
     ctx.save();
 
     let fontSize = options.maxSize;
@@ -64,7 +81,7 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
     let textWidth = textMetrics.width;
     let textHeight = textMetrics.height;
 
-    while((textWidth > rectangle.width || textHeight > rectangle.height) && fontSize >= options.minSize) {
+    while((textWidth > paddedRect.width || textHeight > paddedRect.height) && fontSize >= options.minSize) {
         fontSize = fontSize - options.granularity;
         textMetrics = measureText(text, fontObject, fontSize, options.fitMethod);
         textWidth = textMetrics.width;
@@ -72,17 +89,17 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
     }
 
     // Calculate text coordinates based on options
-    let xPos = rectangle.x;
+    let xPos = paddedRect.x;
     let yPos = options.fitMethod == 'box'
-        ? rectangle.y + rectangle.height - Math.abs(textMetrics.actualBoundingBoxDescent)
-        : rectangle.y + rectangle.height;
+        ? paddedRect.y + paddedRect.height - Math.abs(textMetrics.actualBoundingBoxDescent)
+        : paddedRect.y + paddedRect.height;
 
     switch(options.hAlign) {
         case 'right':
-            xPos = xPos + rectangle.width - textWidth;
+            xPos = xPos + paddedRect.width - textWidth;
             break;
         case 'center': case 'middle':
-            xPos = xPos + (rectangle.width / 2) - (textWidth / 2);
+            xPos = xPos + (paddedRect.width / 2) - (textWidth / 2);
             break;
         case 'left':
             break;
@@ -93,10 +110,10 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
 
     switch(options.vAlign) {
         case 'top':
-            yPos = yPos - rectangle.height + textHeight;
+            yPos = yPos - paddedRect.height + textHeight;
             break;
         case 'center': case 'middle':
-            yPos = yPos + textHeight / 2 - rectangle.height / 2;
+            yPos = yPos + textHeight / 2 - paddedRect.height / 2;
             break;
         case 'bottom': case 'baseline':
             break;
@@ -106,14 +123,30 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
 
     }
 
+    // Draw fill rectangle if needed
+    if(options.rectFillStyle) {
+        let fillRect = options.rectFillOnlyText ? {
+            x: xPos,
+            y: yPos - textHeight,
+            width: textWidth,
+            height: textHeight
+        } : originalRect;
+
+        fillRect = padRectangle(fillRect, options.fillPadding);
+
+        ctx.fillStyle = options.rectFillStyle;
+        ctx.fillRect(fillRect.x, fillRect.y, fillRect.width, fillRect.height);
+    }
+
     // Draw text
+    ctx.fillStyle = options.textFillStyle;
     fontObject.draw(ctx, text, xPos, yPos, fontSize);
 
     // Draw bounding rectangle
     if(options.drawRect) {
         // TODO: Figure out how to not stroke the text itself, just the rectangle
         ctx.strokeStyle = 'red';
-        ctx.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        ctx.rect(paddedRect.x, paddedRect.y, paddedRect.width, paddedRect.height);
         ctx.stroke();
     }
 
