@@ -62,7 +62,6 @@ exports.default = function (ctx, text, fontObject) {
     var options = _extends({
         minSize: 10,
         maxSize: 200,
-        fillStyle: '#000',
         granularity: 1,
         hAlign: 'left',
         vAlign: 'bottom',

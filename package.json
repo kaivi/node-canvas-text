@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Using a provided Opentype.js font object, draws a string, sized to fit inside a given rectangle on an HTML5 canvas",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaivi/node-canvas-text.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "babel index.dev.js --out-file index.js",
