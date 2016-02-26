@@ -45,7 +45,6 @@ export default (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
         ...{
             minSize: 10,
             maxSize: 200,
-            fillStyle: '#000',
             granularity: 1,
             hAlign: 'left',
             vAlign: 'bottom',
