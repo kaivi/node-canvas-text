@@ -79,12 +79,11 @@ let titleString = "A string, but not too long",
     barcodeString = "54490000052117";
 
 // Calculate bounding rectangles
-let titleHeight = canvas.height / 3.5;
 let headerRect = {
     x: 0,
     y: 0,
     width: canvas.width,
-    height: titleHeight };
+    height: canvas.height / 3.5 };
 
 let priceRect = {
     x: canvas.width / 2,
@@ -99,8 +98,7 @@ let barcodeRect = {
     height: priceRect.height / 2
 };
 
-// Do drawing
-
+// Draw
 let drawRect = true;
 
 drawText(ctx, titleString, titleFont, headerRect,
