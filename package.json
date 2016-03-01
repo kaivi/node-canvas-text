@@ -1,6 +1,6 @@
 {
   "name": "node-canvas-text",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Using a provided Opentype.js font object, draws a string, sized to fit inside a given rectangle on an HTML5 canvas",
   "main": "index.js",
   "repository": {
