@@ -76,7 +76,7 @@ exports.default = function (ctx, text, fontObject) {
         vAlign: 'bottom',
         fitMethod: 'box',
         textFillStyle: '#000',
-        rectFillStyle: '#fff',
+        rectFillStyle: 'transparent',
         rectFillOnlyText: false,
         textPadding: 0,
         fillPadding: 0,
@@ -138,8 +138,10 @@ exports.default = function (ctx, text, fontObject) {
 
     }
 
+    ctx.fillStyle = 'transparent';
+
     // Draw fill rectangle if needed
-    if (options.rectFillStyle) {
+    if (options.rectFillStyle != 'transparent') {
         var fillRect = options.rectFillOnlyText ? {
             x: xPos,
             y: yPos - textHeight,
@@ -151,18 +153,23 @@ exports.default = function (ctx, text, fontObject) {
 
         ctx.fillStyle = options.rectFillStyle;
         ctx.fillRect(fillRect.x, fillRect.y, fillRect.width, fillRect.height);
+        ctx.fillStyle = 'transparent';
     }
 
     // Draw text
-    ctx.fillStyle = options.textFillStyle;
-    fontObject.draw(ctx, text, xPos, yPos, fontSize);
+    var fontPath = fontObject.getPath(text, xPos, yPos, fontSize);
+    fontPath.fill = options.textFillStyle;
+    fontPath.draw(ctx);
 
     // Draw bounding rectangle
     if (options.drawRect) {
         // TODO: Figure out how to not stroke the text itself, just the rectangle
+        ctx.save();
         ctx.strokeStyle = 'red';
         ctx.rect(paddedRect.x, paddedRect.y, paddedRect.width, paddedRect.height);
         ctx.stroke();
+        ctx.strokeStyle = 'transparent';
+        ctx.restore();
     }
 
     ctx.restore();
