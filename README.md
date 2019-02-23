@@ -63,22 +63,22 @@ This module exports a single function with signature:
 ## Example
 
 ```javascript
-const canvasText = require("node-canvas-text");
-const opentype = require("opentype.js");
-const Canvas = require("canvas");
+const canvasText = require('node-canvas-text');
+const opentype = require('opentype.js');
+const Canvas = require('canvas');
 
 let canvas = new Canvas.canvas(imgWidth, imgHeight);
-let ctx = canvas.getContext("2d");
+let ctx = canvas.getContext('2d');
 
 // Load OpenType fonts from files
-let titleFont = opentype.loadSync(__dirname + "/fonts/PTN57F.ttf");
-let priceFont = opentype.loadSync(__dirname + "/fonts/PTC75F.ttf");
-let barcodeFont = opentype.loadSync(__dirname + "/fonts/code128.ttf");
+let titleFont = opentype.loadSync(__dirname + '/fonts/PTN57F.ttf');
+let priceFont = opentype.loadSync(__dirname + '/fonts/PTC75F.ttf');
+let barcodeFont = opentype.loadSync(__dirname + '/fonts/code128.ttf');
 
 // Strings to draw
-let titleString = "A string, but not too long",
-  priceString = "200",
-  barcodeString = "54490000052117";
+let titleString = 'A string, but not too long',
+  priceString = '200',
+  barcodeString = '54490000052117';
 
 // Calculate bounding rectangles
 let headerRect = {
@@ -108,27 +108,27 @@ let drawRect = true;
 canvasText.drawText(ctx, titleString, titleFont, headerRect, {
   minSize: 5,
   maxSize: 100,
-  vAlign: "bottom",
-  hAlign: "left",
-  fitMethod: "box",
+  vAlign: 'bottom',
+  hAlign: 'left',
+  fitMethod: 'box',
   drawRect: drawRect
 });
 
 canvasText.drawText(ctx, priceString, priceFont, priceRect, {
   minSize: 5,
   maxSize: 200,
-  hAlign: "right",
-  vAlign: "bottom",
-  fitMethod: "box",
+  hAlign: 'right',
+  vAlign: 'bottom',
+  fitMethod: 'box',
   drawRect: drawRect
 });
 
 canvasText.drawText(ctx, barcodeString, barcodeFont, barcodeRect, {
   minSize: 5,
   maxSize: 200,
-  hAlign: "center",
-  vAlign: "center",
-  fitMethod: "box",
+  hAlign: 'center',
+  vAlign: 'center',
+  fitMethod: 'box',
   drawRect: drawRect
 });
 ```
