@@ -1,4 +1,4 @@
-var measureText = (text, font, fontSize, method = "box") => {
+const measureText = (text, font, fontSize, method = 'box') => {
   let ascent = 0,
     descent = 0,
     width = 0,
@@ -24,7 +24,7 @@ var measureText = (text, font, fontSize, method = "box") => {
   return {
     width: width,
     height:
-      method == "box"
+      method == 'box'
         ? Math.abs(ascent) * scale + Math.abs(descent) * scale
         : Math.abs(ascent) * scale,
     actualBoundingBoxAscent: ascent * scale,
@@ -34,7 +34,7 @@ var measureText = (text, font, fontSize, method = "box") => {
   };
 };
 
-var padRectangle = (rectangle, padding) => {
+const padRectangle = (rectangle, padding) => {
   return {
     x: rectangle.x - padding,
     y: rectangle.y - padding,
@@ -59,11 +59,11 @@ exports.drawText = (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
       minSize: 10,
       maxSize: 200,
       granularity: 1,
-      hAlign: "left",
-      vAlign: "bottom",
-      fitMethod: "box",
-      textFillStyle: "#000",
-      rectFillStyle: "transparent",
+      hAlign: 'left',
+      vAlign: 'bottom',
+      fitMethod: 'box',
+      textFillStyle: '#000',
+      rectFillStyle: 'transparent',
       rectFillOnlyText: false,
       textPadding: 0,
       fillPadding: 0,
@@ -72,11 +72,11 @@ exports.drawText = (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
     ..._options
   };
 
-  if (typeof text != "string") throw "Missing string parameter";
-  if (typeof fontObject != "object") throw "Missing fontObject parameter";
-  if (typeof ctx != "object") throw "Missing ctx parameter";
+  if (typeof text != 'string') throw 'Missing string parameter';
+  if (typeof fontObject != 'object') throw 'Missing fontObject parameter';
+  if (typeof ctx != 'object') throw 'Missing ctx parameter';
   if (options.minSize > options.maxSize)
-    throw "Min font size can not be larger than max font size";
+    throw 'Min font size can not be larger than max font size';
 
   let originalRect = paddedRect;
   paddedRect = padRectangle(paddedRect, options.textPadding);
@@ -101,47 +101,47 @@ exports.drawText = (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
   // Calculate text coordinates based on options
   let xPos = paddedRect.x;
   let yPos =
-    options.fitMethod == "box"
+    options.fitMethod == 'box'
       ? paddedRect.y +
         paddedRect.height -
         Math.abs(textMetrics.actualBoundingBoxDescent)
       : paddedRect.y + paddedRect.height;
 
   switch (options.hAlign) {
-    case "right":
+    case 'right':
       xPos = xPos + paddedRect.width - textWidth;
       break;
-    case "center":
-    case "middle":
+    case 'center':
+    case 'middle':
       xPos = xPos + paddedRect.width / 2 - textWidth / 2;
       break;
-    case "left":
+    case 'left':
       break;
     default:
-      throw "Invalid options.hAlign parameter: " + options.hAlign;
+      throw 'Invalid options.hAlign parameter: ' + options.hAlign;
       break;
   }
 
   switch (options.vAlign) {
-    case "top":
+    case 'top':
       yPos = yPos - paddedRect.height + textHeight;
       break;
-    case "center":
-    case "middle":
+    case 'center':
+    case 'middle':
       yPos = yPos + textHeight / 2 - paddedRect.height / 2;
       break;
-    case "bottom":
-    case "baseline":
+    case 'bottom':
+    case 'baseline':
       break;
     default:
-      throw "Invalid options.vAlign parameter: " + options.vAlign;
+      throw 'Invalid options.vAlign parameter: ' + options.vAlign;
       break;
   }
 
-  ctx.fillStyle = "transparent";
+  ctx.fillStyle = 'transparent';
 
   // Draw fill rectangle if needed
-  if (options.rectFillStyle != "transparent") {
+  if (options.rectFillStyle != 'transparent') {
     let fillRect = options.rectFillOnlyText
       ? {
           x: xPos,
@@ -155,7 +155,7 @@ exports.drawText = (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
 
     ctx.fillStyle = options.rectFillStyle;
     ctx.fillRect(fillRect.x, fillRect.y, fillRect.width, fillRect.height);
-    ctx.fillStyle = "transparent";
+    ctx.fillStyle = 'transparent';
   }
 
   // Draw text
@@ -167,10 +167,10 @@ exports.drawText = (ctx, text, fontObject, _rectangle = {}, _options = {}) => {
   if (options.drawRect) {
     // TODO: Figure out how to not stroke the text itself, just the rectangle
     ctx.save();
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = 'red';
     ctx.rect(paddedRect.x, paddedRect.y, paddedRect.width, paddedRect.height);
     ctx.stroke();
-    ctx.strokeStyle = "transparent";
+    ctx.strokeStyle = 'transparent';
     ctx.restore();
   }
 
