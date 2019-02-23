@@ -1,14 +1,13 @@
 {
   "name": "node-canvas-text",
-  "version": "1.0.2",
-  "description": "Using a provided Opentype.js font object, draws a string, sized to fit inside a given rectangle on an HTML5 canvas",
+  "version": "1.0.3",
+  "description": "Using a provided opentype.js font object, draws a string, sized to fit inside a given rectangle on an HTML5 canvas.",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/kaivi/node-canvas-text.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "babel index.dev.js --out-file index.js",
     "watch": "babel index.dev.js --out-file index.js --watch"
   },
@@ -18,13 +17,17 @@
     "fit",
     "squeeze",
     "rectangle",
-    "canvas2d"
+    "canvas2d",
+    "node-canvas",
+    "npm",
+    "node",
+    "package"
   ],
   "author": "Kai Vik",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "^6.5.1",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1"
   }
 }
